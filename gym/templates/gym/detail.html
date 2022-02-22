@@ -1,0 +1,22 @@
+
+<fieldset>
+    <legend><h1> {{ gym_item.title }}</h1></legend>
+    <p>Date: {{ gym_item.date }}</p>
+</fieldset>
+
+
+<fieldset><legend>Pumped:</legend>
+    {% for i in reps %}
+    <li>{{ i.exercise }} - {{ i.kg }}kg for {{ i.rep_count }}Reps</li>
+    {% endfor %}
+</fieldset> 
+
+<div>
+    <form action="{% url 'gym:index' %}" method="get">
+        {% csrf_token %}
+        <button type="submit">Back to Workouts</button>
+    </form>
+</div>
+
+
+

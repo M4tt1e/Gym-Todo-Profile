@@ -1,0 +1,29 @@
+{% if ordered_todo_items %}
+<ul>
+    {% for item in ordered_todo_items %}
+    {% if item.finished == True %}
+    {% if request.user == item.usr %}
+    <li><a href= "{% url 'todolist:detail' item.id %}" title="To item">{{ item.title }}</a>
+        <p>Was due -- {{ item.due_date }}</p></li>
+    {% endif %}
+    {% endif %}
+    {% endfor %}
+</ul>
+{% else %}
+<p>No finished items!</p>
+{% endif %}
+
+
+<fieldset>
+    <legend>Shared with me</legend>
+    {% for shared_item in request.user.shared_with_me.all %}
+    {% if shared_item.finished == True %}
+    <ul>
+        <li><a href="{% url 'todolist:detail' shared_item.id %}" title="View item">{{ shared_item.title }}</a>
+            <p> Shared By: {{ shared_item.usr }}</p></li>
+    </ul>
+    {% endif %}
+    {% endfor %}
+</fieldset>
+
+<a href="{% url 'todolist:index' %}">Back to todolist</a>

@@ -1,0 +1,14 @@
+<fieldset><legend>My Workouts</legend>
+{% if object_list %}
+<ul>
+    {% for item in object_list %}
+    {% if item.done %}
+    {% if request.user == item.usr %}
+    <li><a href= "{% url 'gym:detail' item.id %}" title="View item">{{ item.title }}</a></li>
+    {% endif %}
+    {% endif %}
+    {% endfor %}
+    {% endif %}
+</fieldset>
+
+<a href="{% url 'gym:index' %}">Back</a>

@@ -1,0 +1,6 @@
+<form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <p>YYYY-MM-DD HH:MM</p>
+    <input type="submit" value="Add the item">
+</form>

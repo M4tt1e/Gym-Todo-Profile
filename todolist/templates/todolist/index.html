@@ -1,0 +1,56 @@
+{% if user.is_authenticated %}
+<h1>Hi {{ user.username }}!</h1>
+
+<a href="{% url 'todolist:profile' %}">Profile</a>
+<p><a href="{% url 'logout' %}">Log out</a></p>
+
+<fieldset><legend>My items</legend>
+{% if ordered_todo_items %}
+<ul>
+    {% for item in ordered_todo_items %}
+    {% if not item.finished %}
+    {% if request.user == item.usr %}
+    <li><a href= "{% url 'todolist:detail' item.id %}" title="View item">{{ item.title }}</a>
+        <p>Due date -- {{ item.due_date }}</p>
+        <p>Last modified -- {{ item.time_since_modified }} by {{ item.user_last_change }}</p></li>
+    {% endif %}
+    {% endif %}
+    {% endfor %}
+</fieldset>
+
+</ul>
+{% else %}
+<p>Nothing To-do!</p>
+{% endif %}
+
+<fieldset>
+    <div>
+        <a href="{% url 'todolist:create' %}">Create new item</a>
+    </div>
+</fieldset>
+
+<fieldset>
+    <a href="{% url 'todolist:finished'%}">Finished items</a>
+</fieldset>
+
+    
+<fieldset>
+    <legend>Shared with me</legend>
+    {% for shared_item in request.user.shared_with_me.all %}
+    <ul>
+        <li><a href="{% url 'todolist:detail' shared_item.id %}" title="View item">{{ shared_item.title }}</a>
+            <p> Shared By: {{ shared_item.usr }}</p></li>
+        <p>Last modified -- {{ shared_item.time_since_modified }} by {{ shared_item.user_last_change }}</p></li>
+            
+    </ul>
+    {% endfor %}
+</fieldset>
+
+
+{% else %}
+<p>You are not logged in</p>
+<a href="{% url 'login' %}">Log In</a>
+<p>Sign up!</p>
+<a href="{% url 'todolist:signup' %}">Sign Up</a>
+
+{% endif %}

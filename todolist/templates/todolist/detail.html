@@ -1,0 +1,31 @@
+<fieldset>
+    <legend><h1> {{ item.title }}</h1></legend>
+    <p>Additional Info: {{ item.body }}</p>
+    <p>Attachment: {{ item.image }}</p>
+
+    <div style="background-color: #000000; color: #FFFFFF; padding: 5px;">
+        <p>Importance - {{ item.importance }}</p>
+    </div>
+
+    <form method="post" enctype="multipart/form-data">
+    <img class="rounded-circle account-img" src="{{ item.image.url }} " style="cursor: pointer;"/>
+</fieldset>
+
+
+
+<div>
+    <form action="{% url 'todolist:index' %}" method="get">
+        {% csrf_token %}
+        <button type="submit">Back to index page</button>
+    </form>
+</div>
+
+
+{% if item.finished == False %}
+<fieldset>
+    <a href="{% url 'todolist:edit' item.id %}">Edit item</a>
+    |-----|
+    <a href="{% url 'todolist:delete' item.id %}">Delete item</a>
+</fieldset>
+{% endif %}
+

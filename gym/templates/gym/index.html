@@ -1,0 +1,53 @@
+{% if user.is_authenticated %}
+<h1>Hi {{ user.username }}!<a href="{% url 'logout' %}">Log out</a></h1>
+
+<h2><a href="{% url 'todolist:profile' %}">Profile</a></h2>
+<h2>
+{% if not has_open_workout %}
+<p><a href="{% url 'gym:create' %}">Create New Workout</a></p>
+{% else %}
+<p><a href="{% url 'gym:active_workout' %}">Continue Workout</a></p>
+{% endif %}
+</h2>
+
+<fieldset><legend>Last '5' Workouts</legend>
+{% if gym_items %}
+<ul>
+    {% for item in gym_items %}
+    {% if item.done %}
+    {% if request.user == item.usr %}
+    <li><a href= "{% url 'gym:detail' item.id %}" title="View item">{{ item.title }}</a>
+        <p>{{ item.date }}</p></li>
+    {% endif %}
+    {% endif %}
+    {% endfor %}
+    <p><a href="{% url 'gym:all' %}">All Workouts</a></p>
+</fieldset>
+
+<h2><a href="{% url 'gym:new_exercise' %}">Add an Exercise</a></h2>
+
+
+<fieldset>
+    <legend>My Exercises</legend>
+
+    {% for i in show_exercises %}
+    {% if request.user == i.usr %}
+    <li>{{ i }} <a href="{% url 'gym:delete_exercise' i.id %}">Delete Exercise</a></li>
+    {% endif %}
+    {% endfor %}
+</fieldset>
+
+
+</ul>
+{% else %}
+<p>No Workouts!</p>
+{% endif %}
+
+
+
+{% else %}
+<p>You are not logged in</p>
+<a href="{% url 'login' %}">Log In</a>
+<p>Sign up!</p>
+<a href="{% url 'todolist:signup' %}">Sign Up</a>
+{% endif %}

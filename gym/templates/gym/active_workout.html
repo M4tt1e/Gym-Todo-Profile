@@ -1,0 +1,18 @@
+
+
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <input type="submit" value="Add exercise">
+</form>
+
+<fieldset><legend>Already Pumped</legend>
+    {% for i in reps %}
+    <li>{{ i.exercise }} - {{ i.kg }}kg for {{ i.rep_count }}Reps</li>
+    {% endfor %}
+</fieldset> 
+
+<form action="{% url 'gym:finish' %}" method="get">
+    {% csrf_token %}
+    <input type="submit" value="Finish Pump!">
+</form>
